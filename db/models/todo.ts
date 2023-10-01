@@ -13,6 +13,6 @@ const todoSchema = new Schema(
     }, 
 {timestamps: true});
 
-const todo = mongoose.models.todo || mongoose.model('todo', todoSchema);
-export default todo;
+const Todo = mongoose.models.Todo || mongoose.model('Todo', todoSchema);
+export default Todo;
 
