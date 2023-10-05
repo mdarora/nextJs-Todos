@@ -22,6 +22,7 @@ const AddTodo = () => {
             });
     
             if (res.ok) {
+                router.refresh();
                 router.push('/');
             } else {
                 throw new Error('Failed to add todo');
