@@ -18,8 +18,7 @@ const Todo = (props : props) => {
         </div>
         <div className='flex gap-2'>
             <Link href={`/edit-todo/${props.id}`} className='text-xl text-yellow-800'><FaRegEdit/></Link>
-            <RemoveTodo/>
-
+            <RemoveTodo id={props.id}/>
         </div>
     </div>
   )
