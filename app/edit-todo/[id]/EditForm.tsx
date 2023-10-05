@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import {useRouter} from 'next/navigation'
 
 interface props{
     id:string,
@@ -10,9 +11,34 @@ interface props{
 const EditForm = (props: props) => {
     const [title, setTitle] = useState(props.title);
     const [description, setDescription] = useState(props.description);
-    
+
+    const router = useRouter();
+
+    const handleUpdate =async (e: FormEvent)=>{
+        e.preventDefault();
+        try {
+            const res =await fetch(`http://localhost:3000/api/todos/${props.id}`,{
+                method: "PUT",
+                headers:{
+                    "Content-Type":"application/json;charset=utf8",
+                },
+                body: JSON.stringify({title, description})
+            });
+
+            if (!res.ok){
+                throw new Error("Updating failed")
+            }
+
+            router.refresh();
+            router.push('/');
+        } catch (error) {
+            console.log("failed to update the todo", error);
+        }
+
+    }
+
   return (
-    <form>
+    <form onSubmit={handleUpdate}>
         <div className='my-2'>
             <input type="text" placeholder='Write title here ...'
                 value={title} onChange={e => setTitle(e.target.value)}
