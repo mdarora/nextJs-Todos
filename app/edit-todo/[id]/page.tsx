@@ -1,22 +1,24 @@
 import React from 'react'
+import EditForm from './EditForm';
 
-const EditTodo = () => {
+const getTodoById =async (id: string)=>{
+    //fetch the todo by id and set it to state
+    try {
+        const res =await fetch(`http://localhost:3000/api/todos/${id}`);
+        const data =await res.json();
+        return data;
+    } catch (error) {
+        console.log("failed to get todo by id", error);
+    }
+}
+
+const EditTodo =async ({params}: any) => {
+    const {todo} =await getTodoById(params.id);
+
   return (
     <section className='max-w-3xl mx-auto pt-4'>
         <h1 className='text-4xl mt-4 mb-6 font-bold'>Edit todo</h1>
-        <form>
-            <div className='my-2'>
-                <input type="text" placeholder='Write title here ...'
-                 className='border border-slate-400 focus:outline outline-2 rounded outline-black px-4 py-1 w-full'/>
-            </div>
-            <div className='my-2'>
-                <textarea placeholder='Write description here ...' name="" id=""
-                className='border border-slate-400 focus:outline outline-2 rounded resize-y px-4 py-1 w-full h-40'></textarea>
-            </div>
-            <div>
-                <button type="submit" className='bg-green-800 text-white px-6 py-3 rounded hover:bg-green-700'>Save</button>
-            </div>
-        </form>
+        <EditForm id={todo._id} title={todo.title} description={todo.description} />
     </section>
   )
 }
